@@ -1,0 +1,7 @@
+── ui/                       # Kivy UI файлы
+│   ├── __init__.py
+│   ├── auth_screen.kv       # Экран авторизации (изобр. 5)
+│   ├── main_menu_screen.kv  # Главное меню (изобр. 2)
+│   ├── posts_screen.kv      # Список публикаций (изобр. 1)
+│   ├── create_post_screen.kv # Создание публикации (изобр. 3)
+│   └── templates_screen.kv  # Шаблоны (изобр. 4)
