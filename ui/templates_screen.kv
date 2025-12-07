@@ -1,0 +1,107 @@
+<TemplateCard>:
+    orientation: 'vertical'
+    size_hint_y: None
+    height: 140
+    padding: 10
+    spacing: 5
+
+    canvas.before:
+        Color:
+            rgba: 0.95, 0.95, 0.95, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]
+        Color:
+            rgba: 0.9, 0.6, 0.2, 1
+        Rectangle:
+            pos: self.pos[0], self.pos[1] + self.height - 5
+            size: self.width, 5
+
+    BoxLayout:
+        size_hint_y: None
+        height: 30
+
+        Label:
+            text: root.template_name
+            font_size: '16sp'
+            bold: True
+            color: 0.2, 0.2, 0.2, 1
+            text_size: self.width, None
+            halign: 'left'
+            valign: 'middle'
+
+    Label:
+        text: root.template_content
+        font_size: '14sp'
+        color: 0.4, 0.4, 0.4, 1
+        size_hint_y: None
+        height: 60
+        text_size: self.width, None
+        halign: 'left'
+        valign: 'top'
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        spacing: 5
+
+        Button:
+            text: 'Использовать'
+            font_size: '12sp'
+            background_color: 0.4, 0.8, 0.4, 1
+            on_release: root.use_template()
+
+        Button:
+            text: 'Редактировать'
+            font_size: '12sp'
+            background_color: 0.2, 0.6, 0.9, 1
+            on_release: root.edit_template()
+
+        Button:
+            text: 'Удалить'
+            font_size: '12sp'
+            background_color: 0.9, 0.4, 0.4, 1
+            on_release: root.delete_template()
+
+<TemplatesScreen>:
+    name: 'templates'
+    templates_list: templates_list
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 60
+            padding: [10, 0]
+
+            Button:
+                text: '← Назад'
+                size_hint_x: None
+                width: 100
+                background_color: 0.7, 0.7, 0.7, 1
+                on_release: app.root.current = 'main_menu'
+
+            Label:
+                text: 'Шаблоны'
+                font_size: '20sp'
+                bold: True
+                color: 0.2, 0.2, 0.2, 1
+
+            Button:
+                text: 'Создать'
+                size_hint_x: None
+                width: 100
+                background_color: 0.2, 0.8, 0.6, 1
+                on_release: root.create_new_template()
+
+        ScrollView:
+            GridLayout:
+                id: templates_list
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 10
+                padding: 10

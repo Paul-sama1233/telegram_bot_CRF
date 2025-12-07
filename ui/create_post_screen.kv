@@ -1,0 +1,176 @@
+<CreatePostScreen>:
+    name: 'create_post'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 60
+            padding: [10, 0]
+
+            Button:
+                text: '← Назад'
+                size_hint_x: None
+                width: 100
+                background_color: 0.7, 0.7, 0.7, 1
+                on_release: app.root.current = 'posts'
+
+            Label:
+                text: 'Создание публикации'
+                font_size: '20sp'
+                bold: True
+                color: 0.2, 0.2, 0.2, 1
+
+        ScrollView:
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: 20
+                spacing: 15
+
+                Label:
+                    text: 'Выберите канал'
+                    font_size: '16sp'
+                    bold: True
+                    size_hint_y: None
+                    height: 30
+
+                Spinner:
+                    id: channel_spinner
+                    text: 'Загрузка...'
+                    size_hint_y: None
+                    height: 40
+                    background_color: 1, 1, 1, 1
+                    on_text: root.on_channel_selected(self, self.text)
+
+                Label:
+                    text: 'Текст публикации'
+                    font_size: '16sp'
+                    bold: True
+                    size_hint_y: None
+                    height: 30
+
+                ScrollView:
+                    size_hint_y: None
+                    height: 150
+
+                    TextInput:
+                        id: content_input
+                        text: root.post_content
+                        hint_text: 'Введите текст публикации...'
+                        multiline: True
+                        on_text: root.post_content = self.text
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: 40
+                    spacing: 10
+
+                    Button:
+                        text: 'Добавить медиа'
+                        font_size: '14sp'
+                        background_color: 0.3, 0.7, 0.9, 1
+                        on_release: root.add_media()
+
+                    Button:
+                        text: 'Добавить кнопку'
+                        font_size: '14sp'
+                        background_color: 0.9, 0.6, 0.2, 1
+                        on_release: root.add_button()
+
+                    Spinner:
+                        id: template_spinner
+                        text: 'Без шаблона'
+                        size_hint_x: 0.5
+                        size_hint_y: None
+                        height: 40
+                        background_color: 1, 1, 1, 1
+                        on_text: root.on_template_selected(self, self.text)
+
+                Label:
+                    text: 'Планирование'
+                    font_size: '16sp'
+                    bold: True
+                    size_hint_y: None
+                    height: 30
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: 40
+                    spacing: 10
+
+                    Label:
+                        text: 'Дата:'
+                        size_hint_x: None
+                        width: 50
+
+                    TextInput:
+                        id: date_input
+                        text: root.schedule_date
+                        hint_text: 'YYYY-MM-DD'
+                        multiline: False
+                        on_text: root.schedule_date = self.text
+
+                    Label:
+                        text: 'Время:'
+                        size_hint_x: None
+                        width: 50
+
+                    TextInput:
+                        id: time_input
+                        text: root.schedule_time
+                        hint_text: 'HH:MM'
+                        multiline: False
+                        on_text: root.schedule_time = self.text
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: 40
+                    spacing: 10
+
+                    Label:
+                        text: 'Повтор:'
+                        size_hint_x: None
+                        width: 60
+
+                    Spinner:
+                        id: repeat_spinner
+                        text: 'Не повторять'
+                        values: ['Не повторять', 'Ежедневно', 'Еженедельно', 'Ежемесячно']
+                        size_hint_x: 0.7
+                        size_hint_y: None
+                        height: 40
+                        background_color: 1, 1, 1, 1
+                        on_text:
+                            root.repeat_interval = {'Не повторять': 'none', 'Ежедневно': 'daily', 'Еженедельно': 'weekly', 'Ежемесячно': 'monthly'}[self.text]
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: 60
+                    spacing: 10
+                    padding: [0, 10]
+
+                    Button:
+                        text: 'Сохранить черновик'
+                        font_size: '16sp'
+                        background_color: 1, 0.7, 0.2, 1
+                        on_release: root.save_as_draft()
+
+                    Button:
+                        text: 'Запланировать'
+                        font_size: '16sp'
+                        background_color: 0.2, 0.6, 0.9, 1
+                        on_release: root.schedule_post()
+
+                    Button:
+                        text: 'Отправить сейчас'
+                        font_size: '16sp'
+                        background_color: 0.4, 0.8, 0.4, 1
+                        on_release: root.send_now()

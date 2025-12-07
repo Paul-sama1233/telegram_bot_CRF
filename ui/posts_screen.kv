@@ -1,0 +1,168 @@
+<PostCard>:
+    orientation: 'vertical'
+    size_hint_y: None
+    height: 180
+    padding: 10
+    spacing: 5
+
+    canvas.before:
+        Color:
+            rgba: 0.95, 0.95, 0.95, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]
+        Color:
+            rgba: 0.2, 0.6, 0.9, 1 if root.status == 'scheduled' else (0.4, 0.8, 0.4, 1) if root.status == 'sent' else (0.9, 0.4, 0.4, 1) if root.status == 'error' else (1, 0.7, 0.2, 1)
+        Rectangle:
+            pos: self.pos[0], self.pos[1] + self.height - 5
+            size: self.width, 5
+
+    BoxLayout:
+        size_hint_y: None
+        height: 30
+
+        Label:
+            text: root.title
+            font_size: '16sp'
+            bold: True
+            color: 0.2, 0.2, 0.2, 1
+            text_size: self.width, None
+            halign: 'left'
+            valign: 'middle'
+
+        Label:
+            text: root.status.upper()
+            font_size: '12sp'
+            bold: True
+            color: 0.2, 0.6, 0.9, 1 if root.status == 'scheduled' else (0.4, 0.8, 0.4, 1) if root.status == 'sent' else (0.9, 0.4, 0.4, 1) if root.status == 'error' else (1, 0.7, 0.2, 1)
+            size_hint_x: None
+            width: 100
+            text_size: self.width, None
+            halign: 'center'
+
+    Label:
+        text: root.content
+        font_size: '14sp'
+        color: 0.4, 0.4, 0.4, 1
+        size_hint_y: None
+        height: 60
+        text_size: self.width, None
+        halign: 'left'
+        valign: 'top'
+
+    BoxLayout:
+        size_hint_y: None
+        height: 30
+
+        Label:
+            text: root.channel_name
+            font_size: '12sp'
+            color: 0.5, 0.5, 0.5, 1
+
+        Label:
+            text: root.scheduled_time
+            font_size: '12sp'
+            color: 0.5, 0.5, 0.5, 1
+
+    BoxLayout:
+        size_hint_y: None
+        height: 40
+        spacing: 5
+
+        Button:
+            text: 'Редактировать'
+            font_size: '12sp'
+            background_color: 0.2, 0.6, 0.9, 1
+            on_release: root.edit_post()
+
+        Button:
+            text: 'Удалить'
+            font_size: '12sp'
+            background_color: 0.9, 0.4, 0.4, 1
+            on_release: root.delete_post()
+
+        Button:
+            text: 'Отправить сейчас'
+            font_size: '12sp'
+            background_color: 0.4, 0.8, 0.4, 1
+            on_release: root.send_now()
+
+<PostsScreen>:
+    name: 'posts'
+    posts_list: posts_list
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 60
+            padding: [10, 0]
+
+            Button:
+                text: '← Назад'
+                size_hint_x: None
+                width: 100
+                background_color: 0.7, 0.7, 0.7, 1
+                on_release: app.root.current = 'main_menu'
+
+            Label:
+                text: 'Публикации'
+                font_size: '20sp'
+                bold: True
+                color: 0.2, 0.2, 0.2, 1
+
+            Button:
+                text: 'Создать'
+                size_hint_x: None
+                width: 100
+                background_color: 0.2, 0.8, 0.6, 1
+                on_release: root.create_new_post()
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 50
+            padding: [10, 5]
+            spacing: 10
+
+            Button:
+                text: 'Все'
+                font_size: '14sp'
+                background_color: 0.3, 0.7, 0.9, 1 if root.filter_status == 'all' else 0.8, 0.8, 0.8, 1
+                on_release: root.set_filter('all')
+
+            Button:
+                text: 'Черновики'
+                font_size: '14sp'
+                background_color: 1, 0.7, 0.2, 1 if root.filter_status == 'draft' else 0.8, 0.8, 0.8, 1
+                on_release: root.set_filter('draft')
+
+            Button:
+                text: 'Запланированные'
+                font_size: '14sp'
+                background_color: 0.2, 0.6, 0.9, 1 if root.filter_status == 'scheduled' else 0.8, 0.8, 0.8, 1
+                on_release: root.set_filter('scheduled')
+
+            Button:
+                text: 'Отправленные'
+                font_size: '14sp'
+                background_color: 0.4, 0.8, 0.4, 1 if root.filter_status == 'sent' else 0.8, 0.8, 0.8, 1
+                on_release: root.set_filter('sent')
+
+            Button:
+                text: 'Ошибки'
+                font_size: '14sp'
+                background_color: 0.9, 0.4, 0.4, 1 if root.filter_status == 'error' else 0.8, 0.8, 0.8, 1
+                on_release: root.set_filter('error')
+
+        ScrollView:
+            GridLayout:
+                id: posts_list
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: 10
+                padding: 10

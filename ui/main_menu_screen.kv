@@ -1,0 +1,54 @@
+# telegram_poster/ui/main_menu_screen.kv
+<MainMenuScreen>:
+    name: 'main_menu'
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 60
+            padding: [10, 0]
+
+            Label:
+                text: 'Главное меню'
+                font_size: '20sp'
+                bold: True
+                color: 0.2, 0.2, 0.2, 1
+
+            Button:
+                text: 'Выйти'
+                size_hint_x: None
+                width: 100
+                background_color: 0.8, 0.2, 0.2, 1
+                on_release: app.root.get_screen('main_menu').logout()
+
+        GridLayout:
+            cols: 2
+            spacing: 15
+            padding: 20
+
+            Button:
+                text: 'Список публикаций'
+                font_size: '18sp'
+                background_color: 0.3, 0.7, 0.9, 1
+                on_release: app.root.current = 'posts'
+
+            Button:
+                text: 'Создать публикацию'
+                font_size: '18sp'
+                background_color: 0.2, 0.8, 0.6, 1
+                on_release: app.root.current = 'create_post'
+
+            Button:
+                text: 'Шаблоны'
+                font_size: '18sp'
+                background_color: 0.9, 0.6, 0.2, 1
+                on_release: app.root.current = 'templates'
+
+            Button:
+                text: 'Настройки'
+                font_size: '18sp'
+                background_color: 0.7, 0.7, 0.7, 1
+                on_release: app.root.current = 'settings'

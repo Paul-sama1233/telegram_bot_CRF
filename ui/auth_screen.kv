@@ -1,0 +1,69 @@
+# telegram_poster/ui/auth_screen.kv
+<AuthScreen>:
+    name: 'auth'
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20
+        spacing: 20
+
+        Label:
+            text: 'Подключение Telegram-бота'
+            font_size: '24sp'
+            bold: True
+            size_hint_y: None
+            height: 50
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 10
+
+            Label:
+                text: 'Введите API-токен, полученный от @BotFather'
+                font_size: '16sp'
+                color: 0.5, 0.5, 0.5, 1
+                size_hint_y: None
+                height: 30
+
+            TextInput:
+                id: token_input
+                hint_text: 'Введите API-токен'
+                size_hint_y: None
+                height: 50
+                multiline: False
+                padding: [10, 10]
+                background_color: 1, 1, 1, 1
+
+            Label:
+                text: 'Получите токен у @BotFather'
+                font_size: '14sp'
+                color: 0.3, 0.3, 0.8, 1
+                size_hint_y: None
+                height: 30
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: 15
+
+            Label:
+                text: 'Список ботов'
+                font_size: '18sp'
+                bold: True
+                size_hint_y: None
+                height: 40
+
+            ScrollView:
+                GridLayout:
+                    id: bots_list
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: 10
+
+        Button:
+            text: 'Войти'
+            size_hint_y: None
+            height: 50
+            background_color: 0.2, 0.6, 0.9, 1
+            font_size: '18sp'
+            on_release: app.root.get_screen('auth').connect_bot(token_input.text)

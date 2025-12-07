@@ -1,0 +1,127 @@
+# telegram_poster/widgets/button_editor.kv
+
+<ButtonItem>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: 50
+    spacing: 5
+    padding: [5, 0]
+
+    canvas.before:
+        Color:
+            rgba: 0.95, 0.95, 0.95, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [5,]
+        Color:
+            rgba: 0.8, 0.8, 0.8, 1
+        Line:
+            rounded_rectangle: [self.x, self.y, self.width, self.height, 5]
+            width: 1
+
+    Label:
+        id: text_label
+        text: root.text
+        font_size: '14sp'
+        bold: True
+        size_hint_x: 0.3
+        text_size: self.width, None
+        valign: 'middle'
+        padding_x: 5
+
+    Label:
+        id: url_label
+        text: root.url
+        font_size: '12sp'
+        color: 0.4, 0.4, 0.4, 1
+        size_hint_x: 0.4
+        text_size: self.width, None
+        valign: 'middle'
+        padding_x: 5
+
+    BoxLayout:
+        size_hint_x: 0.3
+        spacing: 2
+
+        Button:
+            text: '↑'
+            font_size: '12sp'
+            size_hint_x: 0.25
+            background_color: 0.7, 0.7, 0.7, 1
+            on_release: root.move_up()
+
+        Button:
+            text: '↓'
+            font_size: '12sp'
+            size_hint_x: 0.25
+            background_color: 0.7, 0.7, 0.7, 1
+            on_release: root.move_down()
+
+        Button:
+            text: '✎'
+            font_size: '12sp'
+            size_hint_x: 0.25
+            background_color: 0.26, 0.65, 0.96, 1
+            on_release: root.edit()
+
+        Button:
+            text: '×'
+            font_size: '12sp'
+            size_hint_x: 0.25
+            background_color: 0.94, 0.33, 0.31, 1
+            on_release: root.delete()
+
+<ButtonEditor>:
+    orientation: 'vertical'
+    spacing: 10
+    padding: 10
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: 40
+
+        Label:
+            text: 'Инлайн-кнопки'
+            font_size: '18sp'
+            bold: True
+            color: 0.2, 0.2, 0.2, 1
+
+        Label:
+            id: stats_label
+            text: 'Кнопок: 0/10'
+            font_size: '14sp'
+            color: 0.5, 0.5, 0.5, 1
+            size_hint_x: None
+            width: 100
+
+    ScrollView:
+        size_hint_y: None
+        height: 300
+
+        GridLayout:
+            id: buttons_container
+            cols: 1
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: 5
+            padding: [0, 5]
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: 50
+        spacing: 10
+
+        Button:
+            text: 'Добавить кнопку'
+            font_size: '16sp'
+            background_color: 0.26, 0.65, 0.96, 1
+            on_release: root.add_button()
+
+        Button:
+            text: 'Очистить все'
+            font_size: '16sp'
+            background_color: 0.94, 0.33, 0.31, 1
+            on_release: root.clear_buttons()
